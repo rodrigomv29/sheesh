@@ -61,3 +61,12 @@ Unread-response                _CS_IDLE           <response_class>
 Req-started-unread-response    _CS_REQ_STARTED    <response_class>
 Req-sent-unread-response       _CS_REQ_SENT       <response_class>
 """
+def andNew(cls, value, phrase, description=''):
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+
+        obj.phrase = phrase
+        obj.description = description
+        return obj
+print(andNew(5, "a", "aa"))
+    
