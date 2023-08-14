@@ -2,7 +2,7 @@ class Graph:
   def __init__(self, V, E):
     self.V = V;
     self.E = E;
-  def getAdjList():
+  def getAdjList(self):
    listOfEdges = self.E
     solution = [len(self.V)]
     ll = linkedlist.LinkedList();
@@ -30,5 +30,5 @@ class Graph:
               currNode = currNode.next;
               #print(currNode.data)              
     return solution
-  def getMatrix():
+  def getMatrix(self):
     return False;
