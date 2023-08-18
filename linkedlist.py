@@ -8,11 +8,15 @@ class Node:
 class LinkedList:
 
   def __init__(self, head=None):
-    self.head = Node(head)
+    self.head = head;
 
+  def isEmpty(self):
+    if self.head.data is None:
+      return True;
+    return False;
   def printList(self):
     curr = self.head
-    while (curr.next is not None):
+    while curr:
       print(curr.data, end=" -> ")
       curr = curr.next
-
+    print("/")
