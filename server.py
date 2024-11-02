@@ -1,28 +1,50 @@
 import socket
+import threading
 
-HOST = 'localhost'
+HOST = '127.0.0.1'  # Localhost
 PORT = 5000
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((HOST, PORT))
+server.listen()
 
-server_socket.bind((HOST, PORT))
+clients = []
+nicknames = []
 
-server_socket.listen(5)
+def broadcast(message):
+    for client in clients:
+        client.send(message)
 
-print(f"Server is listening on {HOST}:{PORT}")
+def handle(client):
+    while True:
+        try:
+            message = client.recv(1024)
+            broadcast(message)
+        except:
+            index = clients.index(client)
+            clients.remove(client)
+            client.close()
+            nickname = nicknames[index]
+            broadcast(f'{nickname} left the chat!'.encode('utf-8'))
+            nicknames.remove(nickname)
+            break
 
-while True:
-    client_socket, address = server_socket.accept()
-    print(f"Connected by {address}")
+def receive():
+    while True:
+        client, address = server.accept()
+        print(f"Connected with {str(address)}")
 
-    data = client_socket.recv(1024)
-    if not data:
-        break
-    print(f"Received data from client: {data.decode('utf-8')}")
+        client.send('NICK'.encode('utf-8'))
+        nickname = client.recv(1024).decode('utf-8')
+        nicknames.append(nickname)
+        clients.append(client)
 
-    response = "Hello from the server"
-    client_socket.sendall(response.encode('utf-8'))
+        print(f"Nickname of the client is {nickname}")
+        broadcast(f'{nickname} joined the chat!'.encode('utf-8'))
+        client.send('Connected to the server!'.encode('utf-8'))
 
-    client_socket.close()
+        thread = threading.Thread(target=handle, args=(client,))
+        thread.start()
 
-
+print("Server is listening...")
+receive()
