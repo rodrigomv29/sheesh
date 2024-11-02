@@ -11,9 +11,11 @@ server.listen()
 clients = []
 nicknames = []
 
-def broadcast(message):
-    for client in clients:
-        client.send(message)
+
+def broadcast(message, public=True):
+    if public:
+        for client in clients:
+            client.send(message)
 
 def handle(client):
     while True:
