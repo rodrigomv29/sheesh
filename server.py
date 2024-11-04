@@ -14,15 +14,21 @@ nicknames = []
 
 def broadcast(message, public=True):
     if public:
+        print("****\nWRITING TO CLIENTS" + str(clients)+ "\n****")
         for client in clients:
+            print(type(client))
             client.send(message)
 
 def handle(client):
+    # try to handle incoming messages
     while True:
         try:
+            # 1024 bytes maximum for message
             message = client.recv(1024)
+            # broadcast the message
             broadcast(message)
         except:
+            # if cannot receive message then remove the client from the chat
             index = clients.index(client)
             clients.remove(client)
             client.close()
@@ -34,6 +40,7 @@ def handle(client):
 def receive():
     while True:
         client, address = server.accept()
+        print("****\nclient and address" + str(client)+", "+ str(address) + "\n****")
         print(f"Connected with {str(address)}")
 
         client.send('NICK'.encode('utf-8'))
