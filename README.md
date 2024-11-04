@@ -1,2 +1,7 @@
-# sheesh
-Python client for virtual video chat app
+# sheesh - prinounced she-esh
+Python client for chat app
+Features
+public broadcast
+direct messaging
+bot interaction
+
