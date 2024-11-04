@@ -14,9 +14,9 @@ nicknames = []
 
 def broadcast(message, public=True):
     if public:
-        print("****\nWRITING TO CLIENTS" + str(clients)+ "\n****")
+        #print("****\nWRITING TO CLIENTS" + str(clients)+ "\n****")
         for client in clients:
-            print(type(client))
+            #print(type(client))
             client.send(message)
 
 def handle(client):
@@ -40,7 +40,7 @@ def handle(client):
 def receive():
     while True:
         client, address = server.accept()
-        print("****\nclient and address" + str(client)+", "+ str(address) + "\n****")
+        #print("****\nclient and address" + str(client)+", "+ str(address) + "\n****")
         print(f"Connected with {str(address)}")
 
         client.send('NICK'.encode('utf-8'))
